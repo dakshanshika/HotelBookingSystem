@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NoUserFoundException.class)
-    public ResponseEntity<ResponseDto> noUserFoundExceptionHandler(NoUserFoundException ex){
-        ResponseDto responseDto = ResponseDto.builder().msg("User does not exist!!")
+    @ExceptionHandler(HotelNotFoundException.class)
+    public ResponseEntity<ResponseDto> hotelNotFoundExceptionHandler(HotelNotFoundException ex){
+        ResponseDto responseDto = ResponseDto.builder().msg("Hotel does not exist!!")
                 .status(HttpStatus.NOT_FOUND)
                 .build();
 

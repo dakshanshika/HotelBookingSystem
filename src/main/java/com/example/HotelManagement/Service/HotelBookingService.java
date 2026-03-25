@@ -5,10 +5,11 @@ import com.example.HotelManagement.Entity.Room;
 
 import java.util.List;
 
-public interface HotelServiceBooking {
+public interface HotelBookingService {
 
     public List<Hotel> getAllHotels();
-    public Hotel getHotelById();
+    public Hotel getHotelById(int id);
     public List<Room> getAvailableRooms();
 
+    Hotel registerHotel();
 }
