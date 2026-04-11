@@ -1,20 +1,21 @@
 package com.example.HotelManagement.Controller;
 
+import com.example.HotelManagement.Dto.HotelRequestDTO;
 import com.example.HotelManagement.Entity.Hotel;
 import com.example.HotelManagement.Service.HotelBookingService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/v1")
+@Tag(name = "Hotel APIs")
 public class HotelController {
 
     @Autowired
@@ -33,17 +34,22 @@ public class HotelController {
     }
 
 
-    @GetMapping("/registerHotel")
-    public ResponseEntity<Hotel> registerHotel(){
-        Hotel hotel = hotelBookingService.registerHotel();
-        return ResponseEntity.ofNullable(hotel);
-    }
-
     @GetMapping("/getHotel/{id}")
-    public ResponseEntity<Hotel> registerHotel(@PathVariable int id){
+    public ResponseEntity<Hotel> getHotelById(@PathVariable int id){
         Hotel hotel = hotelBookingService.getHotelById(id);
         return ResponseEntity.ofNullable(hotel);
     }
 
+    @PostMapping("/registerHotel")
+    public ResponseEntity<Hotel> registerHotel(@Valid @RequestBody Hotel hotel){
+        Hotel registeredHotel = hotelBookingService.registerHotel(hotel);
+        return ResponseEntity.ofNullable(registeredHotel);
+    }
+
+//    @PostMapping("/registerNewHotel")
+//    public ResponseEntity<Hotel> registerHotelNew(@RequestBody HotelRequestDTO hotelRequestDTO){
+//        Hotel registeredNewHotel = hotelBookingService.registerNewHotel(hotelRequestDTO);
+//        return ResponseEntity.ofNullable(registeredNewHotel);
+//    }
 
 }
