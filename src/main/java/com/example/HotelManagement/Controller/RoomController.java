@@ -2,6 +2,7 @@ package com.example.HotelManagement.Controller;
 
 import com.example.HotelManagement.Entity.Room;
 import com.example.HotelManagement.Service.RoomService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
+@Tag(name = "Room APIs")
 public class RoomController {
 
     private final RoomService roomService;

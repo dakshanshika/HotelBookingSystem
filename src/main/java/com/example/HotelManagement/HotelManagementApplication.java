@@ -1,5 +1,6 @@
 package com.example.HotelManagement;
 
+import com.example.HotelManagement.Configuration.MyConfigClass;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

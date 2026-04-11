@@ -1,5 +1,6 @@
 package com.example.HotelManagement.Service;
 
+import com.example.HotelManagement.Dto.HotelRequestDTO;
 import com.example.HotelManagement.Entity.Hotel;
 import com.example.HotelManagement.Entity.Room;
 import com.example.HotelManagement.Repo.HotelRepo;
@@ -9,10 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class HotelBookingServiceImpl implements HotelBookingService{
+public class HotelBookingServiceImpl implements HotelBookingService {
 
     private final HotelRepo hotelRepo;
 
@@ -37,23 +39,35 @@ public class HotelBookingServiceImpl implements HotelBookingService{
     }
 
     @Override
-    public Hotel registerHotel() {
+    public Hotel registerHotel(Hotel hotel) {
 
-        Hotel hotel = Hotel.builder().name("Ecko Premier Vibrant Old")
-                .contactNumber("100")
-                .description("City Palace View")
+        if (hotel.getRoomList() != null) {
+            hotel.getRoomList().forEach(room -> room.setHotel(hotel));
+        }
+        return hotelRepo.save(hotel);
+    }
+
+    @Override
+    public Hotel registerNewHotel(HotelRequestDTO hotelRequestDTO) {
+            List<Room> rooms = hotelRequestDTO.getRoomList().stream()
+                    .map(roomDto -> {
+                        Room room = new Room();
+                        room.setRoomNumber(roomDto.getRoomNumber());
+                        room.setType(roomDto.getType());
+                        room.setPrice(roomDto.getPrice());
+                        return room;
+                    })
+                    .collect(Collectors.toList());
+        Hotel hotel = Hotel.builder()
+                .name(hotelRequestDTO.getName())
+                .description(hotelRequestDTO.getDescription())
+                .contactNumber(hotelRequestDTO.getContactNumber())
+                .roomList(rooms)
                 .build();
-
-        Room room = Room.builder()
-                .description("Queen size")
-                .type("Delux")
-                .price(4000.0)
-                .hotel(hotel)
-                .build();
-        hotel.setRoomList(List.of(room));
-
-        Hotel saved = hotelRepo.save(hotel);
-
-        return saved;
+        if (hotel.getRoomList() != null) {
+            hotel.getRoomList().forEach(room -> room.setHotel(hotel));
+        }
+        Hotel registerdHotel = hotelRepo.save(hotel);
+        return registerdHotel;
     }
 }

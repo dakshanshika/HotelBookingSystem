@@ -1,5 +1,6 @@
 package com.example.HotelManagement.Service;
 
+import com.example.HotelManagement.Dto.HotelRequestDTO;
 import com.example.HotelManagement.Entity.Hotel;
 import com.example.HotelManagement.Entity.Room;
 
@@ -11,5 +12,7 @@ public interface HotelBookingService {
     public Hotel getHotelById(int id);
     public List<Room> getAvailableRooms();
 
-    Hotel registerHotel();
+    public Hotel registerHotel(Hotel hotel);
+
+    Hotel registerNewHotel(HotelRequestDTO hotelRequestDTO);
 }
